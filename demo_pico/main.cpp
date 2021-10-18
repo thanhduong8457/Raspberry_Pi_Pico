@@ -9,7 +9,7 @@ int main()
 	
     const uint led_pin = 25;
 	int a = 1000;
-
+	int b = 0;
     // Initialize LED pin
     gpio_init(led_pin);
     gpio_set_dir(led_pin, GPIO_OUT);
@@ -20,9 +20,18 @@ int main()
 	pid.set_Ki(10.0);
 	pid.set_mode("normal");
 	
+	PID *pid_2;
+	
+	pid_2 = new PID(1.2,2.3,3.4);
+	
+	pid_2->show_info();
+	
     while (true)
     {
-        std::cout<<"Hello everyone my name is Le Thanh Duong!!!"<<std::endl;
+		b++;
+        std::cout<<"Hello "<<b<<" times !!!"<<std::endl;
+		
+		pid.set_Ki(b);
 		
 		pid.show_info();
 

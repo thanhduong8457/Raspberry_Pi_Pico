@@ -57,7 +57,7 @@ int PID::inc_(int a)
 
 void PID::show_info()
 {
-	std::cout<<"this id information of PID controler"<<std::endl;
+	std::cout<<"this is information of PID controler"<<std::endl;
 	std::cout<<"Kp: "<<this->Kp<<std::endl;
 	std::cout<<"Ki: "<<this->Ki<<std::endl;
 	std::cout<<"Kd: "<<this->Kd<<std::endl;
