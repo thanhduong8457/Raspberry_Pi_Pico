@@ -11,22 +11,25 @@ PID::PID()
 	this->Kp = 3.0;
     this->Ki = 2.0;
     this->Kd = 1.0;
+	this->Ts = 0.01;
     this->mode = "normal";
 }
 
-PID::PID(float Kp, float Ki, float Kd)
+PID::PID(float Kp, float Ki, float Kd, float Ts)
 {
 	this->Kp = Kp;
     this->Ki = Ki;
     this->Kd = Kd;
+	this->Ts = Ts;
     this->mode = "normal";
 }
 
-PID::PID(float Kp, float Ki, float Kd, std::string mode)
+PID::PID(float Kp, float Ki, float Kd, float Ts, std::string mode)
 {
 	this->Kp = Kp;
     this->Ki = Ki;
     this->Kd = Kd;
+	this->Ts = Ts;
     this->mode = mode;
 }
 
@@ -50,9 +53,15 @@ void PID::set_mode(std::string mode)
 	this->mode = mode;
 }
 
-int PID::inc_(int a)
+float PID::compute(float ref, float y)
 {
-	return(a + 10);
+	ek = ref-y;
+	uk = uk1 + Kp*(ek-ek1)+(Ki*Ts*(ek+ek1))/2+(Kd*(ek-2*ek1+ek2))/Ts;
+	uk1 = uk;
+	ek2 = ek1;
+	ek1 = ek;
+
+	return uk;
 }
 
 void PID::show_info()
@@ -61,5 +70,6 @@ void PID::show_info()
 	std::cout<<"Kp: "<<this->Kp<<std::endl;
 	std::cout<<"Ki: "<<this->Ki<<std::endl;
 	std::cout<<"Kd: "<<this->Kd<<std::endl;
+	std::cout<<"Ts: "<<this->Ts<<std::endl;
 	std::cout<<"mode: "<<this->mode<<std::endl;
 }
