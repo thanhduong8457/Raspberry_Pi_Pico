@@ -1,28 +1,78 @@
-#include <iostream>
+#include <bits/stdc++.h>
+#include <cmath>
+#include <cstdio>
 #include <vector>
+#include <iostream>
+#include <algorithm>
 using namespace std;
 
-typedef struct my_data
-{
-	int red;
-	int green;
-}my_data_t;
 
-std::vector<my_data_t *> m_my_data;
+string ltrim(const string &);
+string rtrim(const string &);
 
-void create_data(int a, int b)
+int main()
 {
-	my_data_t *data = NULL;
-	data = new my_data_t;
-	data->red = a;
-	data->green = b;
-	m_my_data.push_back(data);
+	string temp;
+	getline(cin, temp);
+	int n = stoi(ltrim(rtrim(temp)));
+	int array[n];
+
+	for(int i=0;i<n-1;i++)
+	{
+		array[i] = 0;
+	}
+
+    string string_temp;
+
+    getline(cin, string_temp);
+
+
+	int pos = 0;
+
+	int last = 0;
+
+	for(int i=0;i<string_temp.length()+1;i++)
+	{
+		if(string_temp[i]==' ')
+		{
+			array[pos] = stoi(ltrim(rtrim(string_temp.substr(last, i))));
+			last = i;
+			pos++;
+		}
+	}
+
+	array[n-1] = stoi(ltrim(rtrim(string_temp.substr(last, n))));
+
+	for(int i=n-1;i>=0;i--)
+	{
+		cout<<array[i];
+		if(i>0)
+		{
+			cout<<" ";
+		}
+	}
+
+    return 0;
 }
 
-int main(void)
-{
+string ltrim(const string &str) {
+    string s(str);
 
-	cout<<"Hola"<<endl;
+    s.erase(
+        s.begin(),
+        find_if(s.begin(), s.end(), not1(ptr_fun<int, int>(isspace)))
+    );
 
-	return 0;
+    return s;
+}
+
+string rtrim(const string &str) {
+    string s(str);
+
+    s.erase(
+        find_if(s.rbegin(), s.rend(), not1(ptr_fun<int, int>(isspace))).base(),
+        s.end()
+    );
+
+    return s;
 }
