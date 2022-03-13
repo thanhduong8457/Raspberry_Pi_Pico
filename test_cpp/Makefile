@@ -2,7 +2,7 @@
 #				My Makefile				#
 #########################################
 
-GCC = /mnt/d/MCU_Modeling/mcu/common/appl/gcc/gcc-6.2.0_mbd/bin/g++
+GCC = g++
 
 main:
 	@$(GCC) -o ouput main.cpp

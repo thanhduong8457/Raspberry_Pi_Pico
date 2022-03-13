@@ -12,7 +12,7 @@
 int delayTime = 30;
 int steps = 6400;
 
-void step(bool dir, int dirPin, int stepperPin, int steps);
+void step(bool dir, int dirPin, int stepperPin, int steps, int delayTime);
 void main_init(void);
 
 int main() 
@@ -37,21 +37,21 @@ int main()
         current_position = 0;
         std::cout<<"value smaller than 0!"<<std::endl;
       }
-      else if(current_position>360)
+      else if(current_position>90)
       {
-        current_position = 360;
-        std::cout<<"value larger than 360!"<<std::endl;
+        current_position = 90;
+        std::cout<<"value larger than 90!"<<std::endl;
       }
 
       int step_to_move = current_position - last_position;
 
       if(step_to_move>0)
       {
-        step(false, DIR, STEP, (step_to_move*6400/360));
+        step(false, DIR, STEP, (step_to_move*6400/90), 90);
       }
       else
       {
-        step(true, DIR, STEP, -(step_to_move*6400/360));
+        step(true, DIR, STEP, -(step_to_move*6400/90), 90);
       }
 
       std::cout<<"step_to_move = "<<step_to_move<<std::endl;
@@ -74,7 +74,7 @@ void main_init(void)
     gpio_set_dir(LED_PIN, GPIO_OUT);
 }
 
-void step(bool dir, int dirPin, int stepperPin, int steps)
+void step(bool dir, int dirPin, int stepperPin, int steps, int delayTime)
 {
   gpio_put(dirPin, dir);
   sleep_ms(100);

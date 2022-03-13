@@ -2,11 +2,22 @@ import math as Math
 import numpy as np
 from numpy.linalg import inv
 import delta_define
+import time
 
-e=delta_define.e()
-f=delta_define.f()
-re=delta_define.l2()
-rf=delta_define.l1()
+# e=delta_define.e()
+# f=delta_define.f()
+# re=delta_define.l2()
+# rf=delta_define.l1()
+
+e  = 86.5
+f  = 346.4
+re = 465
+rf = 200
+
+# double ee = 86.5;       // endeffector 
+# double ff = 346.4;      // base
+# double re = 465;        // endeffector arm
+# double rf = 200;        // Base arm
 
 # Constantes Trigonometricas
 sqrt3=delta_define.sqrt3()
@@ -77,6 +88,30 @@ def delta_calcForward(theta1, theta2, theta3):
     return [0,x0,y0,z0]# return error,x,y,z
 
 if __name__ == "__main__":
-    a,b,c,d = delta_calcForward(30, 30, 50)
+
+    points = 1000
+
+    theta_1 = 30
+    theta_2 = 0
+    theta_3 = 0
     
-    print(b,c,d)
+    # x1 = 30
+    # y1 = 40
+    # z1 = 50
+    
+    # denta_x = (x1 - theta_1)/points
+    # denta_y = (y1 - theta_2)/points
+    # denta_z = (z1 - theta_3)/points
+    
+    # for i in range(0, points):
+    #     theta_1 = theta_1 + denta_x
+    #     theta_2 = theta_2 + denta_y
+    #     theta_3 = theta_3 + denta_z
+    
+    #     temp,x,y,z = delta_calcForward(theta_1, theta_2, theta_3)
+    #     print(x,y,z)
+    #     time.sleep(0.001)
+
+    temp,x,y,z = delta_calcForward(theta_1, theta_2, theta_3)
+    print(x,y,z)
+        
