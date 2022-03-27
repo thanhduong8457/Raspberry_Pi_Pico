@@ -1,25 +1,30 @@
 #include <iostream>
 #include <map>
+
 #include "math.h"
 #include <chrono>
 #include <thread>
+#include "vector"
 
 using namespace std;
 using namespace std::this_thread; // sleep_for, sleep_until
 using namespace std::chrono; // nanoseconds, system_clock, seconds
 
-const double sqrt3 = 1.732050808;
-const double pi = 3.141592654;
-const double sin120 = 0.8660254038;
-const double cos120 = -0.5;
-const double tan60 = 1.732050808;
-const double sin30 = 0.5;
-const double tan30 = 0.5773502692;
+#define sqrt3   1.732050808
+#define pi      3.141592654
+#define sin120  0.8660254038
+#define cos120  -0.5
+#define tan60   1.732050808
+#define sin30   0.5
+#define tan30   0.5773502692
 
-double ee = 86.5;       // endeffector 
-double ff = 346.4;      // base
-double re = 465;        // endeffector arm
-double rf = 200;        // Base arm
+#define ee      86.5       // endeffector 
+#define ff      346.4      // base
+#define re      465        // endeffector arm
+#define rf      200        // Base arm
+
+#define mmtm    0.001
+#define dtr     (pi/180)
 
 double theta_1, theta_2, theta_3;
 double x, y, z;
@@ -32,17 +37,23 @@ void test_inverse();
 
 int main()
 {
-	// test_inverse();
+	test_inverse();
 
 	// test_direct();
 
-	double theta1 = 0;
-    double theta2 = 0;
-    double theta3 = 0;
+	// theta_1 = 18.0275;
+    // theta_2 = -4.72167;
+    // theta_3 = 12.1526;
 
-	delta_calcForward(theta1, theta2, theta3, x, y, z);
+	// delta_calcForward(theta_1, theta_2, theta_3, x, y, z);
+	// cout<<"x: "<<x<<" y: "<<y<<" z: "<<z<<endl;
 
-	cout<<"x: "<<x<<" y: "<<y<<" z: "<<z<<endl;
+    // x = 0;
+    // y = 0;
+    // z = 0;
+
+    // delta_calcInverse(x, y, z, theta_1, theta_2, theta_3);
+	// cout<<"theta_1: "<<theta_1<<" theta_2: "<<theta_2<<" theta_3: "<<theta_3<<endl;
 
 	return 0;
 }
@@ -55,13 +66,13 @@ void test_inverse()
     double y0 = 0;
     double z0 = -375;
     
-    double x1 = 42;
-    double y1 = -69;
-    double z1 = -527;
+    double x1 = 50;
+    double y1 = 50;
+    double z1 = -400;
 
 	double denta_x = (x1 - x0)/point;
-    double denta_y = (y1 - x0)/point;
-    double denta_z = (z1 - x0)/point;
+    double denta_y = (y1 - y0)/point;
+    double denta_z = (z1 - z0)/point;
 
 	for(int i = 0; i <= point; i++)
 	{
@@ -89,8 +100,8 @@ void test_direct()
     double theta3_2 = 50;
 
 	double denta_x = (theta1_2 - theta1)/point;
-    double denta_y = (theta2_2 - theta1)/point;
-    double denta_z = (theta3_2 - theta1)/point;
+    double denta_y = (theta2_2 - theta2)/point;
+    double denta_z = (theta3_2 - theta3)/point;
 
 	for(int i = 0; i <= point; i++)
 	{
@@ -134,7 +145,6 @@ void delta_calcInverse(double x0, double y0, double z0, double &theta1, double &
 void delta_calcForward(double theta1, double theta2, double theta3, double &x0, double &y0, double &z0)
 {
     double t = (ff - ee) * tan30 / 2;
-    double dtr = pi / 180.0;     // rad convert
 
     theta1 *= dtr;
     theta2 *= dtr;

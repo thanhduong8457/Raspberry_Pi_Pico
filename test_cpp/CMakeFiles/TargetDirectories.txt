@@ -1,0 +1,3 @@
+/mnt/c/Users/DELL/Documents/Raspberry_Pi_Pico/test_cpp/CMakeFiles/test.dir
+/mnt/c/Users/DELL/Documents/Raspberry_Pi_Pico/test_cpp/CMakeFiles/edit_cache.dir
+/mnt/c/Users/DELL/Documents/Raspberry_Pi_Pico/test_cpp/CMakeFiles/rebuild_cache.dir

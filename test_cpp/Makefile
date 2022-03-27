@@ -11,6 +11,8 @@ main:
 
 struct_vector:
 	@$(GCC) -o ouput struct_vector.cpp
+	@./ouput
+	@rm -rf ouput
 
 run:
 	@./ouput
