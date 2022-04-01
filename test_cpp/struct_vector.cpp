@@ -24,6 +24,9 @@ int main(void)
 	create_data(1,2);
 	create_data(5,5);
 	create_data(100,100);
+	create_data(200,200);
+
+	m_my_data.erase(m_my_data.begin() + 3);
 
 	for(int i = 0;i<m_my_data.size();i++)
 	{
@@ -33,7 +36,7 @@ int main(void)
 	}
 
 	delete [] m_my_data[1];
-	m_my_data.erase(m_my_data.begin()+1);
+	m_my_data.erase(m_my_data.begin() + 1);
 
 	for(int i = 0;i<m_my_data.size();i++)
 	{
