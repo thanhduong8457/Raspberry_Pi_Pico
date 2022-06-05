@@ -36,14 +36,45 @@ def angulos_rot(nx, ny, nz):
 
     return [theta_z, theta_y]
 
+def ls_v_a_puntual(q0, q1, vmax, amax, tactual):
+ tau = vmax / amax
+ s = np.sign((q1 - q0))
+ T = (s * (((q1) - (q0)) / (vmax))) + (tau)
+ tramo1 = tau
+ tramo2 = T - tau
+ tramo3 = T
+ if ((0 <= tactual) and (tactual <= tramo1)):
+  q_actual = (q0) + ((s) * (amax / 2) * (tactual ** 2))
+  v_actual = s * amax * tactual
+  a_actual = s * amax
+  res = [q_actual, v_actual, a_actual, tramo1, tramo2, tramo3]
+  return res
+ elif ((tramo1 < tactual) and (tactual <= tramo2)):
+  q_actual = (q0) - ((s) * ((vmax ** 2) / (2 * amax))) + (s * vmax * tactual)
+  v_actual = s * vmax
+  a_actual = 0
+  res = [q_actual, v_actual, a_actual, tramo1, tramo2, tramo3]
+  return res
+ elif ((tramo2 < tactual) and (tactual <= tramo3)):
+  q_actual = (q1) + \
+			 ((s) * ((-1 * ((amax * (T ** 2)) / (2)))
+					 + (amax * T * tactual)
+					 + (-1 * (amax / 2) * (tactual ** 2))))
+  v_actual = s * ((amax * T) - (amax * tactual))
+  a_actual = s * (-1 * amax)
+  res = [q_actual, v_actual, a_actual, tramo1, tramo2, tramo3]
+  return res
+ else:
+  res = [0, 0, 0, tramo1, tramo2, tramo3]
+  return res
 
-xo = 1
-yo = 1
-zo = 1
+xo = 0.0
+yo = 0.0
+zo = -0.375
 
-xf = 2
-yf = 2
-zf = 5
+xf = 0.1
+yf = 0.1
+zf = -0.49
 
 rot_z = np.zeros((3, 3))
 rot_y = np.zeros((3, 3))
@@ -92,6 +123,8 @@ rot_z[2, 2] = 1
 
 m_rot1 = rot_z.dot(pf)
 
+print(m_rot1)
+
 rot_y[0, 0] = cos_axisy
 rot_y[0, 2] = sin_axisy
 rot_y[1, 1] = 1
@@ -109,6 +142,4 @@ m_rot2 = rot_y.dot(m_rot1)
 # print("\n")
 # print(theta_y)
 # print(theta_z)
-print((m_rot2[0, 0]))
-
-print(np.sign(-4))
+# print((m_rot2[0, 0]))
