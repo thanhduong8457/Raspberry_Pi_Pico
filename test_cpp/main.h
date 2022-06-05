@@ -42,7 +42,8 @@ typedef struct data_delta
 
 std::vector<data_delta_t *> m_data_delta;
 
-void unit_vector(double xo,double yo,double zo,double xf,double yf,double zf, double &nx, double &ny, double &nz){
+void unit_vector(double xo,double yo,double zo,double xf,double yf,double zf, double &nx, double &ny, double &nz)
+{
     double delta_x = xf - xo;
     double delta_y = yf - yo;
     double delta_z = zf - zo;
@@ -52,60 +53,6 @@ void unit_vector(double xo,double yo,double zo,double xf,double yf,double zf, do
     nx = delta_x / modulo;
     ny = delta_y / modulo;
     nz = delta_z / modulo;
-}
-
-void path_linear_speed(double xo,double yo,double zo,double xf,double yf,double zf){
-    //######  International units change  ##########
-  double xoo = xo * mmtm;
-  double yoo = yo * mmtm;
-  double zoo = zo * mmtm;
-  double xff = xf * mmtm;
-  double yff = yf * mmtm;
-  double zff = zf * mmtm;
-
-  system_linear(xoo, yoo, zoo, xff, yff, zff);
-
-}
-
-void system_linear(double xo, double yo, double zo, double xf, double yf, double zf){  // ,theta_z,theta_y) :
-    // ######  Angles theta-y theta-z  ######
-    double nx,ny,nz;
-    unit_vector(0, 0, 0, xf-xo, yf-yo, zf-zo, nx, ny, nz);
-
-    double theta_y, theta_z;
-    angulos_rot(nx, ny, nz, theta_y, theta_z);
-
-    double cos_axisz = cos(theta_y);
-    double sin_axisz = sin(theta_y);
-
-    double cos_axisy = cos(theta_z);
-    double sin_axisy = sin(theta_z);
-
-    // ######  Rotacion Z  ######
-    // # Plano xy ya trasladado
-    pf[0][0] = x_trans[0][0];
-    pf[1][0] = x_trans[1][0];
-    pf[2][0] = x_trans[2][0];
-    // # Rotacion respecto a eje Z
-    rot_z[0][0] = cos_axisz;
-    rot_z[0][1] = sin_axisz;
-    rot_z[1][0] = -1 * sin_axisz;
-    rot_z[1][1] = cos_axisz;
-    rot_z[2][2] = 1;
-
-    m_rot1 = rot_z.dot(pf);
-
-    // ######  Rotacion Y  ######
-    // # Rotacion respecto a eje Y
-    rot_y[0][0] = cos_axisy;
-    rot_y[0][2] = sin_axisy;
-    rot_y[1][1] = 1;
-    rot_y[2][0] = -sin_axisy;
-    rot_y[2][2] = cos_axisy;
-
-    m_rot2 = rot_y.dot(m_rot1);
-
-    //return [(m_rot2[0][0]) * mtmm, rot_z, rot_y, theta_y * rtd, theta_z * rtd, rot_tras]
 }
 
 void angulos_rot(double nx,double ny,double nz,double &theta_y,double &theta_z){
@@ -123,6 +70,105 @@ void angulos_rot(double nx,double ny,double nz,double &theta_y,double &theta_z){
     {
         if (ny < 0) theta_y = (360 * dtr) + (atan(ny / nx));
         else    theta_y = (atan(ny / nx));
+    }
+}
+
+void system_linear(double xo, double yo, double zo, double xf, double yf, double zf)  // ,theta_z,theta_y) :
+{
+    // // ######  Angles theta-y theta-z  ######
+    // double nx,ny,nz;
+    // unit_vector(0, 0, 0, xf-xo, yf-yo, zf-zo, nx, ny, nz);
+
+    // double theta_y, theta_z;
+    // angulos_rot(nx, ny, nz, theta_y, theta_z);
+
+    // double cos_axisz = cos(theta_y);
+    // double sin_axisz = sin(theta_y);
+
+    // double cos_axisy = cos(theta_z);
+    // double sin_axisy = sin(theta_z);
+
+    // // ######  Rotacion Z  ######
+    // // # Plano xy ya trasladado
+    // pf[0][0] = x_trans[0][0];
+    // pf[1][0] = x_trans[1][0];
+    // pf[2][0] = x_trans[2][0];
+    // // # Rotacion respecto a eje Z
+    // rot_z[0][0] = cos_axisz;
+    // rot_z[0][1] = sin_axisz;
+    // rot_z[1][0] = -1 * sin_axisz;
+    // rot_z[1][1] = cos_axisz;
+    // rot_z[2][2] = 1;
+
+    // m_rot1 = rot_z.dot(pf);
+
+    // // ######  Rotacion Y  ######
+    // // # Rotacion respecto a eje Y
+    // rot_y[0][0] = cos_axisy;
+    // rot_y[0][2] = sin_axisy;
+    // rot_y[1][1] = 1;
+    // rot_y[2][0] = -sin_axisy;
+    // rot_y[2][2] = cos_axisy;
+
+    // m_rot2 = rot_y.dot(m_rot1);
+
+    // //return [(m_rot2[0][0]) * mtmm, rot_z, rot_y, theta_y * rtd, theta_z * rtd, rot_tras]
+}
+
+void path_linear_speed(double xo,double yo,double zo,double xf,double yf,double zf)
+{
+//     //######  International units change  ##########
+//   double xoo = xo * mmtm;
+//   double yoo = yo * mmtm;
+//   double zoo = zo * mmtm;
+//   double xff = xf * mmtm;
+//   double yff = yf * mmtm;
+//   double zff = zf * mmtm;
+
+//   system_linear(xoo, yoo, zoo, xff, yff, zff);
+
+}
+
+void ls_v_a_puntual(double q0, double q1, int vmax, int amax, int tactual, 
+                    double &q_actual, double &v_actual, double &a_actual,
+                    double &tramo1, double &tramo2, double &tramo3)
+{
+    double tau = vmax/amax;
+
+    int s;
+    if(q1-q0>0)   s = 1;
+    else if(q1-q0<0)    s = -1;
+
+    double T = (s * (((q1) - (q0)) / (vmax))) + (tau);
+ 
+    double tramo1 = tau;
+    double tramo2 = T - tau;
+    double tramo3 = T;
+
+    if ((0 <= tactual) && (tactual <= tramo1))
+    {
+        q_actual = (q0) + ((s) * (amax / 2) * (tactual*tactual));
+        v_actual = s * amax * tactual;
+        a_actual = s * amax;
+    }
+    else if ((tramo1 < tactual) && (tactual <= tramo2))
+    {
+        
+        q_actual = (q0) - ((s) * ((vmax*vmax) / (2 * amax))) + (s * vmax * tactual);
+        v_actual = s * vmax;
+        a_actual = 0;
+    }
+    else if ((tramo2 < tactual) && (tactual <= tramo3))
+    {
+        q_actual = (q1) + ((s) * ((-1 * ((amax * (T*T)) / (2))) + (amax * T * tactual) + (-1 * (amax / 2) * (tactual*tactual))));
+        v_actual = s * ((amax * T) - (amax * tactual));
+        a_actual = s * (-1 * amax);
+    }
+    else
+    {
+        q_actual = 0;
+        v_actual = 0;
+        a_actual = 0;
     }
 }
 
@@ -216,132 +262,87 @@ void ls_v_a_total(double q0,double q1,double vmax,double amax,int pas_1,int pas_
     // return [tiempo, mtmm * pos, mtmm * vel, mtmm * acel];
 }
 
-void ls_v_a_puntual(double q0, double q1, int vmax, int amax, int tactual, 
-                    double &q_actual, double &v_actual, double &a_actual,
-                    double &tramo1, double &tramo2, double &tramo3)
-{
-    double tau = vmax/amax;
+// void path_linear_speed_inv(rot_z, rot_y, double theta_y, double theta_z, m_trans)
+// {
+//     double m_tiempo = m_data_delta[0]->tiempo;
+//     double m_pos = mmtm * m_data_delta[0]->pos;
+//     double m_vel = mmtm * m_data_delta[0]->vel;
+//     double m_acel = mmtm * m_data_delta[0]->acel;
 
-    int s;
-    if(q1-q0>0)   s = 1;
-    else if(q1-q0<0)    s = -1;
+//     theta_y = theta_y * dtr;
+//     theta_z = theta_z * dtr;
 
-    double T = (s * (((q1) - (q0)) / (vmax))) + (tau);
- 
-    double tramo1 = tau;
-    double tramo2 = T - tau;
-    double tramo3 = T;
+//     system_linear_matrix(rot_z, rot_y, theta_y, theta_z, m_trans);
 
-    if ((0 <= tactual) && (tactual <= tramo1))
-    {
-        q_actual = (q0) + ((s) * (amax / 2) * (tactual*tactual));
-        v_actual = s * amax * tactual;
-        a_actual = s * amax;
-    }
-    else if ((tramo1 < tactual) && (tactual <= tramo2))
-    {
-        
-        q_actual = (q0) - ((s) * ((vmax*vmax) / (2 * amax))) + (s * vmax * tactual);
-        v_actual = s * vmax;
-        a_actual = 0;
-    }
-    else if ((tramo2 < tactual) && (tactual <= tramo3))
-    {
-        q_actual = (q1) + ((s) * ((-1 * ((amax * (T*T)) / (2))) + (amax * T * tactual) + (-1 * (amax / 2) * (tactual*tactual))));
-        v_actual = s * ((amax * T) - (amax * tactual));
-        a_actual = s * (-1 * amax);
-    }
-    else
-    {
-        q_actual = 0;
-        v_actual = 0;
-        a_actual = 0;
-    }
-}
+//   //return res_final_2
+// }
 
-void path_linear_speed_inv(rot_z, rot_y, double theta_y, double theta_z, m_trans)
-{
-    double m_tiempo = m_data_delta[0]->tiempo;
-    double m_pos = mmtm * m_data_delta[0]->pos;
-    double m_vel = mmtm * m_data_delta[0]->vel;
-    double m_acel = mmtm * m_data_delta[0]->acel;
+// void system_linear_matrix(rot_z, rot_y, theta_y, theta_z, m_trans)
+// {
+//  for(int i=0;i<size(m_data_delta);i++)
+//  {
+//     //   ######  Posicion xyz  ##########
+//   xyz_ls = system_linear_inv(m_data_delta[i]->pos, rot_z, rot_y, theta_y, theta_z, m_trans);
 
-    theta_y = theta_y * dtr;
-    theta_z = theta_z * dtr;
+//   m_data_delta[i]->pos_x = xyz_ls[0][0];
+//   m_data_delta[i]->pos_y = xyz_ls[1][0];
+//   m_data_delta[i]->pos_z = xyz_ls[2][0];
 
-    system_linear_matrix(rot_z, rot_y, theta_y, theta_z, m_trans);
+// //   ######  Velocidad xyz  ##########
+//   xyz_ls_vel = system_linear_inv(m_data_delta[i]->vel, rot_z, rot_y, theta_y, theta_z, m_trans);
+//   m_data_delta[i]->vel_x = xyz_ls_vel[0][0];
+//   m_data_delta[i]->vel_y = xyz_ls_vel[1][0];
+//   m_data_delta[i]->vel_z = xyz_ls_vel[2][0];
 
-  //return res_final_2
-}
+// //   ######  Aceleracion xyz  ##########
+//   xyz_ls_acel = system_linear_inv(m_data_delta[i]->acel, rot_z, rot_y, theta_y, theta_z, m_trans);
+//   m_data_delta[i]->acel_x = xyz_ls_acel[0][0];
+//   m_data_delta[i]->acel_y = xyz_ls_acel[1][0];
+//   m_data_delta[i]->acel_z = xyz_ls_acel[2][0];
+//  }
 
-void system_linear_matrix(rot_z, rot_y, theta_y, theta_z, m_trans)
-{
+// //  return [m_tiempo,
+// // 		 mtmm * m_pos_x[0], mtmm * m_pos_y[0], mtmm * m_pos_z[0],
+// // 		 mtmm * m_vel_x[0], mtmm * m_vel_y[0], mtmm * m_vel_z[0],
+// // 		 mtmm * m_acel_x[0], mtmm * m_acel_y[0], mtmm * m_acel_z[0]]
+// }
 
- for(int i=0;i<size(m_data_delta);i++)
- {
-    //   ######  Posicion xyz  ##########
-  xyz_ls = system_linear_inv(m_data_delta[i]->pos, rot_z, rot_y, theta_y, theta_z, m_trans);
+// void system_linear_inv(double xprima, rot_z, rot_y, theta_y, theta_z, m_trans)
+// {
+//     //  ######   Creacion de Matrices  ######
+//     double rot_tras_inv[4][4] = {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
+//     double pf_inv[3] = {0,0,0};
+//     double pf_trans_inv[4] = {0,0,0,0};
+//     double m_trans_inv[4][4] = {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
 
-  m_data_delta[i]->pos_x = xyz_ls[0][0];
-  m_data_delta[i]->pos_y = xyz_ls[1][0];
-  m_data_delta[i]->pos_z = xyz_ls[2][0];
+//     // ######   Rotacion Y  ######
+//     pf_inv[0] = xprima;
+//     pf_inv[1] = 0;
+//     pf_inv[2] = 0;
 
-//   ######  Velocidad xyz  ##########
-  xyz_ls_vel = system_linear_inv(m_data_delta[i]->vel, rot_z, rot_y, theta_y, theta_z, m_trans);
-  m_data_delta[i]->vel_x = xyz_ls_vel[0][0];
-  m_data_delta[i]->vel_y = xyz_ls_vel[1][0];
-  m_data_delta[i]->vel_z = xyz_ls_vel[2][0];
+//     rot_y_tras = rot_y.transpose();
 
-//   ######  Aceleracion xyz  ##########
-  xyz_ls_acel = system_linear_inv(m_data_delta[i]->acel, rot_z, rot_y, theta_y, theta_z, m_trans);
-  m_data_delta[i]->acel_x = xyz_ls_acel[0][0];
-  m_data_delta[i]->acel_y = xyz_ls_acel[1][0];
-  m_data_delta[i]->acel_z = xyz_ls_acel[2][0];
- }
+//     m_rot1_inv = rot_y_tras.dot(pf_inv);
 
-//  return [m_tiempo,
-// 		 mtmm * m_pos_x[0], mtmm * m_pos_y[0], mtmm * m_pos_z[0],
-// 		 mtmm * m_vel_x[0], mtmm * m_vel_y[0], mtmm * m_vel_z[0],
-// 		 mtmm * m_acel_x[0], mtmm * m_acel_y[0], mtmm * m_acel_z[0]]
-}
+//     // ######   Rotacion Z  ######
+//     rot_z_tras = rot_z.transpose();
+//     m_rot2_inv = rot_z_tras.dot(m_rot1_inv);
 
-void system_linear_inv(double xprima, rot_z, rot_y, theta_y, theta_z, m_trans)
-{
-      
-//  ######   Creacion de Matrices  ######
- double rot_tras_inv[4][4] = {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
- double pf_inv[3] = {0,0,0};
- double pf_trans_inv[4] = {0,0,0,0};
- double m_trans_inv[4][4] = {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
+//     // ######   Traslacion ######
+//     pf_trans_inv[0] = m_rot2_inv[0][0];
+//     pf_trans_inv[1] = m_rot2_inv[1][0];
+//     pf_trans_inv[2] = m_rot2_inv[2][0];
+//     pf_trans_inv[3] = 1;
 
-// ######   Rotacion Y  ######
- pf_inv[0] = xprima;
- pf_inv[1] = 0;
- pf_inv[2] = 0;
+//     m_trans_inv[0][3] = -1 * m_trans[0][3];
+//     m_trans_inv[1][3] = -1 * m_trans[1][3];
+//     m_trans_inv[2][3] = -1 * m_trans[2][3];
+//     m_trans_inv[0][0] = 1;
+//     m_trans_inv[1][1] = 1;
+//     m_trans_inv[2][2] = 1;
+//     m_trans_inv[3][3] = 1;
 
- rot_y_tras = rot_y.transpose();
+//     xyz_res = (m_trans_inv).dot(pf_trans_inv);
 
- m_rot1_inv = rot_y_tras.dot(pf_inv);
-
-// ######   Rotacion Z  ######
- rot_z_tras = rot_z.transpose();
- m_rot2_inv = rot_z_tras.dot(m_rot1_inv);
-
-// ######   Traslacion ######
- pf_trans_inv[0] = m_rot2_inv[0][0];
- pf_trans_inv[1] = m_rot2_inv[1][0];
- pf_trans_inv[2] = m_rot2_inv[2][0];
- pf_trans_inv[3] = 1;
-
- m_trans_inv[0][3] = -1 * m_trans[0][3];
- m_trans_inv[1][3] = -1 * m_trans[1][3];
- m_trans_inv[2][3] = -1 * m_trans[2][3];
- m_trans_inv[0][0] = 1;
- m_trans_inv[1][1] = 1;
- m_trans_inv[2][2] = 1;
- m_trans_inv[3][3] = 1;
-
- xyz_res = (m_trans_inv).dot(pf_trans_inv);
-
- //return xyz_res
-}
+//     //return xyz_res
+// }

@@ -6,6 +6,16 @@ typedef struct my_data
 {
 	int red;
 	int green;
+	
+	void increase_red()
+	{
+		red++;
+	}
+	
+	void increase_green()
+	{
+		red++;
+	}
 }my_data_t;
 
 std::vector<my_data_t *> m_my_data;
@@ -24,6 +34,8 @@ int main(void)
 	create_data(1,2);
 	create_data(5,5);
 	create_data(100,100);
+	
+	m_my_data[1]->increase_red();
 
 	for(int i = 0;i<m_my_data.size();i++)
 	{
