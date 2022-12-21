@@ -23,10 +23,13 @@ public:
     PID();
     PID(float, float, float, float);
     PID(float, float, float, float, std::string);
+
     void set_Kp(float);
     void set_Ki(float);
     void set_Kd(float);
-	float compute(float, float);
+
+    float compute(float, float);
+
     void set_mode(std::string);
 	void show_info();
 };

@@ -6,70 +6,61 @@
  **********************************************************************************************/
 #include "PID.h"
 
-PID::PID()
-{
-	this->Kp = 3.0;
+PID::PID() {
+    this->Kp = 3.0;
     this->Ki = 2.0;
     this->Kd = 1.0;
-	this->Ts = 0.01;
+    this->Ts = 0.01;
     this->mode = "normal";
 }
 
-PID::PID(float Kp, float Ki, float Kd, float Ts)
-{
-	this->Kp = Kp;
+PID::PID(float Kp, float Ki, float Kd, float Ts) {
+    this->Kp = Kp;
     this->Ki = Ki;
     this->Kd = Kd;
-	this->Ts = Ts;
+    this->Ts = Ts;
     this->mode = "normal";
 }
 
-PID::PID(float Kp, float Ki, float Kd, float Ts, std::string mode)
-{
-	this->Kp = Kp;
+PID::PID(float Kp, float Ki, float Kd, float Ts, std::string mode) {
+    this->Kp = Kp;
     this->Ki = Ki;
     this->Kd = Kd;
-	this->Ts = Ts;
+    this->Ts = Ts;
     this->mode = mode;
 }
 
-void PID::set_Kp(float Kp)
-{
-	this->Kp = Kp;
+void PID::set_Kp(float Kp) {
+    this->Kp = Kp;
 }
 
-void PID::set_Ki(float Ki)
-{
-	this->Ki = Ki;	
+void PID::set_Ki(float Ki) {
+    this->Ki = Ki;    
 }
 
-void PID::set_Kd(float Kd)
-{
-	this->Kd = Kd;	
+void PID::set_Kd(float Kd) {
+    this->Kd = Kd;    
 }
 
-void PID::set_mode(std::string mode)
-{
-	this->mode = mode;
+void PID::set_mode(std::string mode) {
+    this->mode = mode;
 }
 
-float PID::compute(float ref, float y)
-{
-	ek = ref-y;
-	uk = uk1 + Kp*(ek-ek1)+(Ki*Ts*(ek+ek1))/2+(Kd*(ek-2*ek1+ek2))/Ts;
-	uk1 = uk;
-	ek2 = ek1;
-	ek1 = ek;
+float PID::compute(float ref, float y) {
+    ek = ref-y;
+    uk = uk1 + Kp*(ek-ek1)+(Ki*Ts*(ek+ek1))/2+(Kd*(ek-2*ek1+ek2))/Ts;
+    uk1 = uk;
+    ek2 = ek1;
+    ek1 = ek;
 
-	return uk;
+    return uk;
 }
 
-void PID::show_info()
-{
-	std::cout<<"this is information of PID controler"<<std::endl;
-	std::cout<<"Kp: "<<this->Kp<<std::endl;
-	std::cout<<"Ki: "<<this->Ki<<std::endl;
-	std::cout<<"Kd: "<<this->Kd<<std::endl;
-	std::cout<<"Ts: "<<this->Ts<<std::endl;
-	std::cout<<"mode: "<<this->mode<<std::endl;
+void PID::show_info() {
+    std::cout<<"this is information of PID controler"<<std::endl;
+    std::cout<<"Kp: "<<this->Kp<<std::endl;
+    std::cout<<"Ki: "<<this->Ki<<std::endl;
+    std::cout<<"Kd: "<<this->Kd<<std::endl;
+    std::cout<<"Ts: "<<this->Ts<<std::endl;
+    std::cout<<"mode: "<<this->mode<<std::endl;
 }
