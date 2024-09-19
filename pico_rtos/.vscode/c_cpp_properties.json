@@ -1,0 +1,31 @@
+{
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/Users/thanhduong/pico-sdk/src/common/pico_base/include",
+                "/Users/thanhduong/pico-sdk/src/host/pico_platform/include",
+                "/Users/thanhduong/pico-sdk/src/host/pico_stdio/include",
+                "/Users/thanhduong/pico-sdk/src/common/pico_time/include",
+                "/Users/thanhduong/pico-sdk/src/host/hardware_timer/include",
+                "/Users/thanhduong/pico-sdk/src/host/hardware_gpio/include",
+                "/Users/thanhduong/pico-sdk/src/host/hardware_uart/include",
+                "/Users/thanhduong/pico-sdk/src/rp2_common/hardware_adc/include",
+                "/Users/thanhduong/pico-sdk/src/rp2040/hardware_structs/include",
+                "/Users/thanhduong/pico-sdk/src/rp2_common/hardware_base/include",
+                "/Users/thanhduong/pico-sdk/src/rp2040/hardware_regs/include",
+                "/Users/thanhduong/pico-sdk/src/common/pico_stdlib/include"
+            ],
+            "defines": [],
+            "macFrameworkPath": [
+                "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks"
+            ],
+            "compilerPath": "/opt/homebrew/bin/arm-none-eabi-g++",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "macos-clang-arm64"
+        }
+    ],
+    "version": 4
+}

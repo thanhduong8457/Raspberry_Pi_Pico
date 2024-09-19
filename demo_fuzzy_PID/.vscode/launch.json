@@ -1,0 +1,29 @@
+// Configure debug launch settings
+// Feel free to copy these and modify them for your debugger and MCU
+{
+    "version": "0.2.0",
+    "projectName": "demo",
+    "configurations": [
+        {
+            "name": "OCD launch",
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceRoot}/build/blink.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "gdbPath": "arm-none-eabi-gdb",
+            "device": "RP2040",
+            "configFiles": [
+                "interface/picoprobe.cfg", 
+                "target/rp2040.cfg"
+            ],
+            "interface": "swd",
+            "svdFile": "/Users/thanhduong/pico-sdk/src/rp2040/hardware_regs/rp2040.svd", // Include svd to watch device peripherals 
+            "postResetCommands": [
+                "break main",
+                "continue"
+            ],
+            "searchDir": ["/Users/thanhduong/Documents/Embeded_Project/RaspPico/openocd/tcl"]
+        }
+    ]
+}

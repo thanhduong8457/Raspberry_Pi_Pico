@@ -9,8 +9,7 @@ const float conversion = 3.3f / (1<<12);
 
 void display_temperature(void);
 
-int main() 
-{	
+int main() {	
 	// Initialize chosen serial port
 	stdio_init_all();
     gpio_init(led_pin);
