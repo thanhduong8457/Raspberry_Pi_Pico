@@ -1,3 +1,6 @@
 {
-    "cortex-debug.openocdPath": "/Users/thanhduong/Documents/Embeded_Project/RaspPico/openocd/src/openocd"
+    "cortex-debug.openocdPath": "/Users/thanhduong/Documents/Embeded_Project/RaspPico/openocd/src/openocd",
+    "files.associations": {
+        "ostream": "cpp"
+    }
 }

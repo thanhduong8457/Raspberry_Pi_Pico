@@ -11,8 +11,7 @@ float y = 0;
 float temp;
 const float conversion = 3.3f / (1 << 12);
 /*##################################################################################*/
-void blink(int &temp, int delay)
-{
+void blink(int &temp, int delay) {
     int value = temp % 100;
     if(value < 50) {
         gpio_put(led_pin, true);
@@ -24,8 +23,7 @@ void blink(int &temp, int delay)
     }
 }
 /*##################################################################################*/
-float set_ref(float duration, int &temp)
-{
+float set_ref(float duration, int &temp) {
     int ref = 0;
     if(temp < (duration/2)) {
         ref = 100;
@@ -47,8 +45,7 @@ void display_temperature(void) {
     std::cout<<"temperature: "<<temperature<<std::endl;
 }
 /*##################################################################################*/
-int main() 
-{    
+int main()  {    
     // Initialize chosen serial port
     stdio_init_all();
     gpio_init(led_pin);

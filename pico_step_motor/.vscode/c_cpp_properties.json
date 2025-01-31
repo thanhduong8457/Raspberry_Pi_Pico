@@ -18,11 +18,13 @@
                 "/Users/thanhduong/pico-sdk/src/common/pico_stdlib/include"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/clang",
+            "macFrameworkPath": [
+                "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks"
+            ],
+            "compilerPath": "/opt/homebrew/bin/arm-none-eabi-g++",
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "intelliSenseMode": "macos-clang-arm64",
-            "configurationProvider": "go2sh.cmake-integration"
+            "intelliSenseMode": "macos-clang-arm64"
         }
     ],
     "version": 4
